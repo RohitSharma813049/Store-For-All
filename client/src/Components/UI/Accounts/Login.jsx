@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { validateMobile, validatePassword } from "../../../utils/Validation";
 
 export default function Login() {
   const [mobile, setMobile] = useState("");
@@ -7,14 +8,31 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleContinue = (e) => {
     e.preventDefault();
-    if (step === "mobile" && mobile.length === 10) {
+    setError("");
+
+    if (step === "mobile") {
+      const mobileError = validateMobile(mobile);
+      if (mobileError) {
+        setError(mobileError);
+        return;
+      }
       setStep("password");
     } else if (step === "password") {
+      const passwordError = validatePassword(password);
+      if (passwordError) {
+        setError(passwordError);
+        return;
+      }
       setLoading(true);
-      setTimeout(() => setLoading(false), 2000);
+      // Simulate API call
+      setTimeout(() => {
+        setLoading(false);
+        // Successful login logic would go here
+      }, 2000);
     }
   };
 
@@ -78,6 +96,11 @@ export default function Login() {
           </div>
 
           <form onSubmit={handleContinue} className="flex flex-col gap-6">
+            {error && (
+              <div className="bg-red-50 text-red-600 text-xs py-2 px-3 rounded-sm border border-red-100 animate-pulse">
+                {error}
+              </div>
+            )}
 
             {step === "mobile" ? (
               /* ── Mobile Number Input ── */
@@ -144,7 +167,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading || (step === "mobile" && mobile.length !== 10)}
-              className="w-full bg-[#fb641b] hover:bg-[#e05510] disabled:bg-orange-300 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-sm tracking-widest text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+              className="w-full bg-secondary hover:bg-[#e05510] disabled:bg-orange-300 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-sm tracking-widest text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
