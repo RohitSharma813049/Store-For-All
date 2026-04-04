@@ -65,14 +65,10 @@ export default function Login() {
               <span className="font-bold text-lg italic">tore For All</span>
             </div>
             <h2 className="text-[1.6rem] font-bold leading-snug mb-3">
-              {step === "mobile"
-                ? "Looks like you're new here!"
-                : "Welcome back!"}
+              Login
             </h2>
             <p className="text-blue-200 text-sm leading-relaxed">
-              {step === "mobile"
-                ? "Sign up with your mobile number to get started"
-                : "Enter the 6-digit OTP sent to your mobile number"}
+              Get access to your Orders, Wishlist and Recommendations
             </p>
           </div>
 
@@ -192,18 +188,17 @@ export default function Login() {
                   Please wait...
                 </>
               ) : (
-                step === "mobile" ? "CONTINUE" : "LOGIN"
+                step === "mobile" ? "CONTINUE" : "VERIFY OTP"
               )}
             </button>
 
-            {/* Existing user / New user toggle */}
-            <button
-              type="button"
-              onClick={() => setStep(step === "mobile" ? "password" : "mobile")}
-              className="w-full border border-gray-300 hover:bg-gray-50 text-[#2874f0] font-bold py-3.5 rounded-sm text-sm transition-all active:scale-95"
+            {/* New user link */}
+            <Link
+              to="/register"
+              className="w-full text-center text-[#2874f0] font-bold py-3.5 text-sm transition-all hover:bg-gray-50 border border-gray-100 rounded-sm shadow-sm"
             >
-              {step === "mobile" ? "Existing User? Log in" : "New User? Sign Up"}
-            </button>
+              New to Store For All? Create an account
+            </Link>
 
             {/* Divider + Google */}
             <div className="flex items-center gap-3">
