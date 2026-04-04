@@ -5,8 +5,10 @@ import oAuthSchema from "./Oauth.schema.js";
 
 const userSchema = new mongoose.Schema({
   name: String,
-  email: { type: String, unique: true },
+  email: { type: String, unique: true, sparse: true },
+  mobile: { type: String, unique: true, sparse: true },
   password: String,
+  isVerified: { type: Boolean, default: false },
 
   role: {
     type: String,

@@ -6,7 +6,7 @@ import redisClient from "./src/configs/Redis.js";
 
 import userRoutes from "./src/routes/User.routes.js";
 import productRoutes from "./src/routes/Product.route.js";
-import orderRoutes from "./src/routes/Ouders.route.js";
+import orderRoutes from "./src/routes/Order.route.js";
 import paymentRoutes from "./src/routes/Payments.route.js";
 import authRoutes from "./src/routes/Auth.route.js";
 import adminRoutes from "./src/routes/Admin.route.js";
@@ -27,9 +27,9 @@ app.get("/", (req, res) => {
     res.send('Hello World');
 });
 
-// Connect to database and Redis
+// Connect to database
 connectDB();
-await redisClient.connect();
+// await redisClient.connect(); // Not needed for @upstash/redis REST client
 
 // Use routes
 app.use('/api/auth', authRoutes);
