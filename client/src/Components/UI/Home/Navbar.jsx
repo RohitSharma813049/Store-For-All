@@ -15,7 +15,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { RiCustomerService2Line } from "react-icons/ri";
 
 function Navbar() {
-  const authencated = true;
+  const authencated = false;
 
   return (
     <>
@@ -61,7 +61,7 @@ function Navbar() {
           {!authencated ? (
             <Link
               to="/login"
-              className="flex items-center gap-1 md:text-xl hover:text-blue-600 border-2 border-black"
+              className="flex items-center gap-1 md:text-xl hover:text-blue-600"
             >
               <IoPersonOutline />
               <span>Login</span>
@@ -71,11 +71,17 @@ function Navbar() {
               children={
                 <div className="flex items-center gap-1 md:text-xl cursor-pointer hover:text-blue-600">
                   <CgProfile />
-                  <span>Login</span>
+                  <span>Profile</span>
                 </div>
               }
               options={
                 <div className="flex flex-col text-sm">
+              <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
+                <CgProfile size={18}/> New Customer 
+                <Link to="/register" className="text-blue-600">
+                  Sign Up
+                </Link>
+              </span>
               <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
                 <CgProfile size={18}/> My Profile
               </span>
