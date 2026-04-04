@@ -58,53 +58,60 @@ function Navbar() {
         <div className="hidden md:flex items-center justify-center gap-6 text-sm font-medium">
           
           {/* Account */}
-          {!authencated ? (
-            <Link
-              to="/login"
-              className="flex items-center gap-1 md:text-xl hover:text-blue-600"
-            >
-              <IoPersonOutline />
-              <span>Login</span>
-            </Link>
-          ) : (
-            <OptionsHover
-              children={
+          <OptionsHover
+            children={
+              !authencated ? (
+                <Link
+                  to="/login"
+                  className="flex items-center gap-1 md:text-xl hover:text-blue-600"
+                >
+                  <IoPersonOutline />
+                  <span>Login</span>
+                </Link>
+              ) : (
                 <div className="flex items-center gap-1 md:text-xl cursor-pointer hover:text-blue-600">
                   <CgProfile />
                   <span>Profile</span>
                 </div>
-              }
-              options={
-                <div className="flex flex-col text-sm">
-              <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
-                <CgProfile size={18}/> New Customer 
-                <Link to="/register" className="text-blue-600">
-                  Sign Up
-                </Link>
-              </span>
-              <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
-                <CgProfile size={18}/> My Profile
-              </span>
-
+              )
+            }
+            options={
+              <div className="flex flex-col text-sm min-w-[150px]">
+                {!authencated ? (
+                  <span className="p-3 border-b-2 border-gray-100 flex items-center justify-between gap-2 hover:bg-bgGradientLight cursor-pointer">
+                    <span className="font-semibold">New Customer?</span>
+                    <Link to="/register" className="text-blue-600 font-bold ml-2">
+                      Sign Up
+                    </Link>
+                  </span>
+                ) : (
                   <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
-                    <FaBox /> Orders
+                    <CgProfile size={18} /> My Profile
                   </span>
+                )}
 
-                  <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
-                    <FaHeart /> Wishlist
-                  </span>
+                <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
+                  <FaBox /> Orders
+                </span>
 
-                  <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
-                    <MdOutlineDashboard /> Dashboard
-                  </span>
+                <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
+                  <FaHeart /> Wishlist
+                </span>
 
-                  <span className="p-2 flex items-center gap-2 hover:bg-gray-100 cursor-pointer text-red-500">
-                    <FaSignOutAlt /> Logout
-                  </span>
-                </div>
-              }
-            />
-          )}
+                {authencated && (
+                  <>
+                    <span className="p-2 flex items-center gap-2 hover:bg-bgGradientLight cursor-pointer">
+                      <MdOutlineDashboard /> Dashboard
+                    </span>
+
+                    <span className="p-2 flex items-center gap-2 hover:bg-gray-100 cursor-pointer text-red-500 border-t-2 border-gray-100 mt-1">
+                      <FaSignOutAlt /> Logout
+                    </span>
+                  </>
+                )}
+              </div>
+            }
+          />
 
           {/* More */}
           <OptionsHover

@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { validateMobile, validatePassword } from "../../../utils/Validation";
+import { validateMobile, validateOTP } from "../../../utils/Validation";
 
 export default function Login() {
+  const [step, setStep] = useState("mobile"); // "mobile" | "otp"
   const [mobile, setMobile] = useState("");
-  const [step, setStep] = useState("mobile"); // "mobile" | "password"
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resendTimer, setResendTimer] = useState(0);
+
+  React.useEffect(() => {
+    let timer;
+    if (resendTimer > 0) {
+      timer = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendTimer]);
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -20,15 +30,21 @@ export default function Login() {
         setError(mobileError);
         return;
       }
-      setStep("password");
-    } else if (step === "password") {
-      const passwordError = validatePassword(password);
-      if (passwordError) {
-        setError(passwordError);
+      setLoading(true);
+      // Mock sending OTP
+      setTimeout(() => {
+        setLoading(false);
+        setStep("otp");
+        setResendTimer(30);
+      }, 1500);
+    } else if (step === "otp") {
+      const otpError = validateOTP(otp);
+      if (otpError) {
+        setError(otpError);
         return;
       }
       setLoading(true);
-      // Simulate API call
+      // Simulate API verification
       setTimeout(() => {
         setLoading(false);
         // Successful login logic would go here
@@ -56,7 +72,7 @@ export default function Login() {
             <p className="text-blue-200 text-sm leading-relaxed">
               {step === "mobile"
                 ? "Sign up with your mobile number to get started"
-                : "Enter your password to log in to your account"}
+                : "Enter the 6-digit OTP sent to your mobile number"}
             </p>
           </div>
 
@@ -117,10 +133,10 @@ export default function Login() {
                 />
               </div>
             ) : (
-              /* ── Password Input ── */
+              /* ── OTP Input ── */
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-gray-500 mb-1">
-                  Logging in as <span className="text-[#2874f0] font-semibold">+91 {mobile}</span>
+                  OTP sent to <span className="text-[#2874f0] font-semibold">+91 {mobile}</span>
                   <button
                     type="button"
                     onClick={() => setStep("mobile")}
@@ -131,28 +147,26 @@ export default function Login() {
                 </p>
                 <div className="flex items-center border-b-2 border-gray-300 focus-within:border-[#2874f0] transition-colors">
                   <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter Password"
-                    className="flex-1 outline-none py-2 text-sm text-gray-800 placeholder-gray-400 bg-transparent"
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/, ""))}
+                    placeholder="Enter 6-digit OTP"
+                    className="flex-1 outline-none py-2 text-sm text-gray-800 placeholder-gray-400 bg-transparent tracking-[0.5em] font-bold"
                     required
                     autoFocus
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="text-[#2874f0] text-xs font-semibold ml-2"
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
                 </div>
-                <Link
-                  to="/forgot-password"
-                  className="self-end text-xs text-[#2874f0] hover:underline mt-1"
-                >
-                  Forgot?
-                </Link>
+                <div className="flex justify-between items-center mt-2">
+                   <button 
+                    type="button"
+                    disabled={resendTimer > 0}
+                    className="text-xs text-[#2874f0] font-semibold disabled:text-gray-400"
+                    onClick={() => setResendTimer(30)}
+                   >
+                     Resend OTP {resendTimer > 0 && `(${resendTimer}s)`}
+                   </button>
+                </div>
               </div>
             )}
 

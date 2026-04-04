@@ -24,6 +24,13 @@ export const validatePassword = (password) => {
   return "";
 };
 
+export const validateOTP = (otp) => {
+  const regex = /^\d{6}$/;
+  if (!otp) return "OTP is required";
+  if (!regex.test(otp)) return "Enter a valid 6-digit OTP";
+  return "";
+};
+
 export const validateName = (name) => {
   if (!name) return "Name is required";
   if (name.trim().length < 2) return "Name must be at least 2 characters";
