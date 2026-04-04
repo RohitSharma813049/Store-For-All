@@ -49,7 +49,7 @@ function CategoryBar() {
   ];
 
   return (
-    <div className="flex gap-4 overflow-x-auto p-2 justify-center items-center bg-bg_white border-b-2 border-gray-300">
+    <div className="flex gap-4 overflow-x-auto p-2 items-center bg-bg_white border-b-2 border-gray-300">
       {categories.map((item, index) => (
         <NavLink
           to={item.name}

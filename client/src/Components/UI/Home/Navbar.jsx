@@ -151,9 +151,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-    <div className=''>
       <CategoryBar/>  
-    </div>
     </>
   );
 }
