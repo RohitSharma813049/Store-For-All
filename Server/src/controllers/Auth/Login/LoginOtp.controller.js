@@ -4,13 +4,22 @@ import sendEmail from "../../../utils/Email.js";
 import sendSMS from "../../../utils/SMS.js";
 import redis from "../../../configs/redis.js";
 
-const LoginControllerByOtp = async (req, res) => {
+const LoginOtpController = async (req, res) => {
   try {
-    const { identity } = req.body;
+    let { identity } = req.body;
 
-    const user = await UserModel.findOne({
-      $or: [{ email: identity }, { mobile: identity }]
-    });
+    // 🔥 Normalize identity
+    const isEmail = identity.includes("@");
+
+    if (!isEmail) {
+      identity = identity.startsWith("+91")
+        ? identity
+        : `+91${identity}`;
+    }
+
+    const user = await UserModel.findOne(
+      isEmail ? { email: identity } : { phone: identity }
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -20,22 +29,23 @@ const LoginControllerByOtp = async (req, res) => {
 
     const otp = GenerateOtp();
 
-    // Store OTP in Redis
     await redis.set(
       `login:${identity}`,
       JSON.stringify({ otp }),
       { ex: 300 }
     );
 
-    //  Send OTP
-    if (identity.includes("@")) {
+    if (isEmail) {
       await sendEmail({
         email: identity,
         subject: "Login OTP",
         html: `<h3>Your OTP is ${otp}</h3>`
       });
     } else {
-      await sendSMS(identity, otp);
+      await sendSMS({
+        phone: identity,
+        message: `Your OTP is ${otp}`
+      });
     }
 
     return res.json({
@@ -45,10 +55,9 @@ const LoginControllerByOtp = async (req, res) => {
   } catch (e) {
     console.error("Login OTP Error:", e);
     res.status(500).json({
-      message: "Login Failed",
-      error: e.message
+      message: "Login Failed"
     });
   }
 };
 
-export default LoginControllerByOtp;
+export default LoginOtpController;

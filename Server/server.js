@@ -2,6 +2,7 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import cors from "cors";
 import { connectDB } from "./src/configs/Db.js";
+import cookieParser from "cookie-parser";
 
 import userRoutes from "./src/routes/User.routes.js";
 import productRoutes from "./src/routes/Product.route.js";
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 connectDB();
 
 // Use routes
+app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);

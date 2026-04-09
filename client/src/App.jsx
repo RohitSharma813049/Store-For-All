@@ -10,6 +10,8 @@ const HomePages = lazy(() => import("./Pages/Home"));
 const Category = lazy(() => import("./Components/UI/Home/Category"));
 const Login = lazy(() => import("./Components/UI/Accounts/Login"));
 const Register = lazy(() => import("./Components/UI/Accounts/Register"));
+const LoginPassword = lazy(() => import("./Components/UI/Accounts/PasswordLoginpage"));
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Route path="category" element={<Category />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="login-password" element={<LoginPassword />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
