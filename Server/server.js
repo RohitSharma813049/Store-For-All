@@ -2,7 +2,6 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import cors from "cors";
 import { connectDB } from "./src/configs/Db.js";
-import redisClient from "./src/configs/Redis.js";
 
 import userRoutes from "./src/routes/User.routes.js";
 import productRoutes from "./src/routes/Product.route.js";
@@ -21,7 +20,10 @@ configDotenv();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
 app.get("/", (req, res) => {
     res.send('Hello World');
@@ -29,7 +31,6 @@ app.get("/", (req, res) => {
 
 // Connect to database
 connectDB();
-// await redisClient.connect(); // Not needed for @upstash/redis REST client
 
 // Use routes
 app.use('/api/auth', authRoutes);
