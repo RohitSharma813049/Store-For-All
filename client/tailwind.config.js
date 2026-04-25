@@ -25,7 +25,7 @@ export default {
  backgroundImage: {
   bgGradient: 'linear-gradient(180deg, #e3f2fd 0%, #ffffff 100%)',
   bgGradientLight: 'linear-gradient(90deg, #bbdefb 0%, #ffffff 100%)',
-}
+},
 
       boxShadow: {
         fk_shadow: '0 1px 2px 0 rgba(0,0,0,0.16)',

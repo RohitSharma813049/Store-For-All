@@ -53,7 +53,7 @@ const VerifyLoginOtpController = async (req, res) => {
     return res.json({
       message: "Login successful ✅",
       token,
-      user
+      user,
     });
 
   } catch (e) {

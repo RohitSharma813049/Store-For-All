@@ -7,10 +7,12 @@ import MobileBottomNav from '../Components/UI/Home/MobileBottomNav'
 function Layout() {
   return (
 <>
-<header className=' container mx-auto sticky top-0 z-50 bg-bgGradientLight'>
-  <Navbar/>
+<header className='  bg-bgGradientLight'>
+   <div className='container mx-auto sticky top-0 z-50 p-2'>
+     <Navbar/>
+   </div>
 </header>
-<main className=' container mx-auto'>
+<main className=' container mx-auto p-2'>
   <Outlet/>
 </main>
 <footer className=' bottom-0 absolute md:hidden w-full h-auto'>
